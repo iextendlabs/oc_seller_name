@@ -1,0 +1,221 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_sales }}</label>
+            <div class="col-sm-10">
+              <div class="well well-sm" style="height: 150px; overflow: auto;">
+                <div class="checkbox">
+                  <label>
+                  {% if module_order_status %}
+                    <input type="checkbox" name="module_order_status"  checked="checked" />
+                     {{ text_order }}
+                  {% else %}
+                    <input type="checkbox" name="module_order_status"  />
+                     {{ text_order }}
+                     {% endif %}
+                      <br>
+                     {% if module_sales_status %}
+                    <input type="checkbox" name="module_sales_status"  checked="checked" />
+                     {{ text_sales }} 
+                  {% else %}
+                    <input type="checkbox" name="module_sales_status"  />
+                     {{ text_sales }} 
+                     {% endif %}
+                      <br>
+                     {% if module_return_status %}
+                    <input type="checkbox" name="module_return_status"  checked="checked" />
+                     {{ text_return }} 
+                  {% else %}
+                    <input type="checkbox" name="module_return_status"  />
+                     {{ text_return }} 
+                     {% endif %}
+                      <br>
+                      {% if module_tax_status %}
+                    <input type="checkbox" name="module_tax_status"  checked="checked" />
+                     {{ text_tax }} 
+                  {% else %}
+                    <input type="checkbox" name="module_tax_status"  />
+                     {{ text_tax }} 
+                     {% endif %}
+                      <br>
+                      {% if module_complete_order_status %}
+                    <input type="checkbox" name="module_complete_order_status"  checked="checked" />
+                     {{ text_complete_order }} 
+                  {% else %}
+                    <input type="checkbox" name="module_complete_order_status"  />
+                     {{ text_complete_order }} 
+                     {% endif %}
+                      <br>
+                      {% if module_pending_order_status %}
+                    <input type="checkbox" name="module_pending_order_status"  checked="checked" />
+                     {{ text_pending_order }} 
+                  {% else %}
+                    <input type="checkbox" name="module_pending_order_status"  />
+                     {{ text_pending_order }} 
+                     {% endif %}
+                      <br>
+                      {% if module_canceled_order_status %}
+                    <input type="checkbox" name="module_canceled_order_status"  checked="checked" />
+                     {{ text_canceled_order }} 
+                  {% else %}
+                    <input type="checkbox" name="module_canceled_order_status"  />
+                     {{ text_canceled_order }} 
+                     {% endif %}
+                      <br>
+                      {% if module_refunded_order_status %}
+                    <input type="checkbox" name="module_refunded_order_status"  checked="checked" />
+                     {{ text_refunded_order }} 
+                  {% else %}
+                    <input type="checkbox" name="module_refunded_order_status"  />
+                     {{ text_refunded_order }} 
+                     {% endif %}
+                  </label>
+                </div>
+              </div>
+              <button type="button" onclick="$(this).parent().find(':checkbox').prop('checked', true);" class="btn btn-link">{{ text_select_all }}</button> / <button type="button" onclick="$(this).parent().find(':checkbox').prop('checked', false);" class="btn btn-link">{{ text_unselect_all }}</button></div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_product }}</label>
+            <div class="col-sm-10">
+              <div class="well well-sm" style="height: 150px; overflow: auto;">
+                <div class="checkbox">
+                  <label>
+                      {% if module_product_status %}
+                    <input type="checkbox" name="module_product_status"  checked="checked" />
+                     {{ text_product }} 
+                  {% else %}
+                    <input type="checkbox" name="module_product_status"  />
+                     {{ text_product }} 
+                     {% endif %}
+                      <br>
+                      {% if module_outofstock_product_status %}
+                    <input type="checkbox" name="module_outofstock_product_status"  checked="checked" />
+                     {{ text_outOfStock_product }} 
+                  {% else %}
+                    <input type="checkbox" name="module_outofstock_product_status"  />
+                     {{ text_outOfStock_product }} 
+                     {% endif %}
+                      <br>
+                      {% if module_lowestselling_product_status %}
+                    <input type="checkbox" name="module_lowestselling_product_status"  checked="checked" />
+                     {{ text_lowest_selling_product }} 
+                  {% else %}
+                    <input type="checkbox" name="module_lowestselling_product_status"  />
+                     {{ text_lowest_selling_product }} 
+                     {% endif %}
+                      <br>
+                      {% if module_highestselling_product_status %}
+                    <input type="checkbox" name="module_highestselling_product_status"  checked="checked" />
+                     {{ text_highest_selling_product }} 
+                  {% else %}
+                    <input type="checkbox" name="module_highestselling_product_status"  />
+                     {{ text_highest_selling_product }} 
+                     {% endif %}
+                      <br>
+                      {% if module_topview_product_status %}
+                    <input type="checkbox" name="module_topview_product_status"  checked="checked" />
+                     {{ text_TopView_product }} 
+                  {% else %}
+                    <input type="checkbox" name="module_topview_product_status"  />
+                     {{ text_TopView_product }} 
+                     {% endif %}
+                      <br>
+                      {% if module_lowestview_product_status %}
+                    <input type="checkbox" name="module_lowestview_product_status"  checked="checked" />
+                     {{ text_LowestView_product }} 
+                  {% else %}
+                    <input type="checkbox" name="module_lowestview_product_status"  />
+                     {{ text_LowestView_product }} 
+                     {% endif %}
+                  </label>
+                </div>
+              </div>
+              <button type="button" onclick="$(this).parent().find(':checkbox').prop('checked', true);" class="btn btn-link">{{ text_select_all }}</button> / <button type="button" onclick="$(this).parent().find(':checkbox').prop('checked', false);" class="btn btn-link">{{ text_unselect_all }}</button></div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_category }}</label>
+            <div class="col-sm-10">
+              <div class="well well-sm" style="height: 150px; overflow: auto;">
+                <div class="checkbox">
+                  <label>
+                      {% if module_customers_status %}
+                    <input type="checkbox" name="module_customers_status"  checked="checked" />
+                     {{ text_customer }} 
+                  {% else %}
+                    <input type="checkbox" name="module_customers_status"  />
+                     {{ text_customer }} 
+                     {% endif %}
+                      <br>
+                      {% if module_report_category_status %}
+                    <input type="checkbox" name="module_report_category_status"  checked="checked" />
+                     {{ text_category }} 
+                  {% else %}
+                    <input type="checkbox" name="module_report_category_status"  />
+                     {{ text_category }} 
+                     {% endif %}
+                      <br>
+                      {% if module_enable_category_status %}
+                    <input type="checkbox" name="module_enable_category_status"  checked="checked" />
+                     {{ text_enable_category }} 
+                  {% else %}
+                    <input type="checkbox" name="module_enable_category_status"  />
+                     {{ text_enable_category }} 
+                     {% endif %}
+                      <br>
+                      {% if module_disable_category_status %}
+                    <input type="checkbox" name="module_disable_category_status"  checked="checked" />
+                     {{ text_disable_category }} 
+                  {% else %}
+                    <input type="checkbox" name="module_disable_category_status"  />
+                     {{ text_disable_category }} 
+                     {% endif %}
+                      <br>
+                      {% if module_nanufacturer_status %}
+                    <input type="checkbox" name="module_nanufacturer_status"  checked="checked" />
+                     {{ text_manufacturer }} 
+                  {% else %}
+                    <input type="checkbox" name="module_nanufacturer_status"  />
+                     {{ text_manufacturer }} 
+                     {% endif %}
+                      <br>
+                      {% if module_topbrand_status %}
+                    <input type="checkbox" name="module_topbrand_status"  checked="checked" />
+                     {{ text_top_brand }} 
+                  {% else %}
+                    <input type="checkbox" name="module_topbrand_status"  />
+                     {{ text_top_brand }} 
+                     {% endif %}
+                      <br>
+                  </label>
+                </div>
+              </div>
+              <button type="button" onclick="$(this).parent().find(':checkbox').prop('checked', true);" class="btn btn-link">{{ text_select_all }}</button> / <button type="button" onclick="$(this).parent().find(':checkbox').prop('checked', false);" class="btn btn-link">{{ text_unselect_all }}</button></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

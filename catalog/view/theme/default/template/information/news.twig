@@ -1,0 +1,41 @@
+{{ header }}
+<div id="news-news" class="container">
+  
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }} "row">{{ content_top }}
+    <div class ="col-sm-6">
+      <h1> <u>{{ latest_news }}</u> </h1>
+      {% set no = 1 %}
+      <ul class="list-unstyled">
+         {% for news in latestNews %}
+          <li> <h4><b>{{ no }}):-</b> <a href="{{ news.href }}">{{ news.title }}</a></h4></li>
+          {{ news.date_time }}
+          <hr>
+          {% set no = no+1 %}
+          {% endfor %}
+        </ul>
+        </div>
+        <div class ="col-sm-6">
+      <h1> <u>{{ all_news }}</u> </h1>
+      {% set no = 1 %}
+      <ul class="list-unstyled">
+         {% for news in allNews %}
+          <li> <h4><b>{{ no }}):-</b> <a href="{{ news.href }}">{{ news.title }}</a></h4></li>
+          {{ news.date_time }}
+          <hr>
+          {% set no = no+1 %}
+          {% endfor %}
+        </ul>
+        <div class="pull-right"><a href="http://localhost:81/opencart/test/index.php?route=information/news/allNews" data-toggle="tooltip" class="btn btn-primary">{{ see_more }}</a>
+        </div>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }}

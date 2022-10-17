@@ -1,0 +1,449 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+        <div class="pull-right">
+            <a href="{{ report_setting }}" data-toggle="tooltip" title="{{ text_setting }}" class="btn btn-primary"><i class="fa fa-cog fw"></i></a>
+        </div>
+            <h1>{{ heading_title }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% if isFirstLoad %}
+            <div class="col-md-12">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid#4cb64c; border-radius: 15px; margin-left: 10px;">
+                    <div class="text-success text-center mt-3 panel-body">
+                        <h4><b>{{ isFirstLoad }}</b></h4>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+    </div>
+    <div class="jumbotron">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+            <div class="pull-right"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><h2><i class="fa fa-calendar"></i> <i class="caret"></h2></i></a>
+                <ul id="range" class="dropdown-menu dropdown-menu-right">
+                    {% if text_sales_report == 'Daily Sales Report' %}
+                  <li id="day" class="active"><a>Today</a></li> <input type="hidden" value="{{ day_start }}" name="day_start"> <input type="hidden" value="{{ day_end }}" name="day_end">
+                    {% else %}
+                  <li id="day"><a>Today</a></li> <input type="hidden" value="{{ day_start }}" name="day_start"> <input type="hidden" value="{{ day_end }}" name="day_end">
+                    {% endif %}
+                    {% if text_sales_report == 'Monthly Sales Report' %}
+                  <li id="month" class="active"><a>Month</a></li> <input type="hidden" value="{{ month_start }}" name="month_start"> <input type="hidden" value="{{ month_end }}" name="month_end">
+                    {% else %}
+                  <li id="month"><a>Month</a></li> <input type="hidden" value="{{ month_start }}" name="month_start"> <input type="hidden" value="{{ month_end }}" name="month_end">
+                    {% endif %}
+                    {% if text_sales_report == 'Yearly Sales Report' %}
+                  <li id="year" class="active"><a>Year</a></li> <input type="hidden" value="{{ year_start }}" name="year_start"> <input type="hidden" value="{{ year_end }}" name="year_end">
+                    {% else %}
+                  <li id="year"><a>Year</a></li> <input type="hidden" value="{{ year_start }}" name="year_start"> <input type="hidden" value="{{ year_end }}" name="year_end">
+                    {% endif %}
+                
+                </ul>
+              </div>
+            <h2 class="panel-tital">{{ text_sales_report }}</h2>
+            </div>
+        </div>
+        <div class="col-sm-4">
+              <div class="panel-heading">
+                <h3 class="panel-title" style="color:DodgerBlue;"> <i class="fa fa-filter"></i>{{ custom_filter }}</h3>
+              </div>
+              <div class="panel-body">
+                <div class="container-fluid">
+                  <div class="form-group">
+                    <label for="input-date-start" class="col-sm-6 control-label">{{ custom_date_start }}</label>
+                    <div class="col-sm-12">
+                      <div class="input-group datetime">
+                        <input type="text" name="start" value="{{ start }}" placeholder="{{ custom_date_start }}" data-date-format="YYYY-MM-DD HH:mm:ss" id="input-date-start" class="form-control" class="col-sm-2"/> <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid">
+                  <div class="form-group">
+                    <label for="input-date-end" class="col-sm-6 control-label">{{ custom_date_end }}</label>
+                    <div class="col-sm-12">
+                      <div class="input-group datetime">
+                        <input type="text" name="end" value="{{ end }}" placeholder="{{ custom_date_end }}" data-date-format="YYYY-MM-DD HH:mm:ss" id="input-date-end" class="form-control" class="col-sm-2"/> <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group text-right">
+                  <button type="button" id="button-custom" class="btn btn-default"><i class="fa fa-filter"></i> {{ button_filter }} </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row w-100 container-fluid">
+            {% if order_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid#f3a638; border-radius: 15px; height: 185px;">
+                    <div class="text-warning text-center mt-3 panel-body">
+                        <h4>{{ text_total_order }}</h4>
+                    </div>
+                    <div class="text-warning text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_order }}</h1>
+                        <a href="{{ href_order }}"> <h5 class="text-warning">{{ text_view}}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if sales_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid #4cb657; border-radius: 15px; height: 185px;">
+                    <div class="text-success text-center mt-3 panel-body">
+                        <h4>{{ text_sales }}</h4>
+                    </div>
+                    <div class="text-success text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ sales }}</h1>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if return_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid #e3503e; border-radius: 15px; height: 185px;">
+                    <div class="text-danger text-center mt-3 panel-body">
+                        <h4>{{ text_return }}</h4>
+                    </div>
+                    <div class="text-danger text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ return }}</h1>
+                        <a href="{{ href_refunded }}"> <h5 class="text-danger">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if tax_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid #31708f; border-radius: 15px; height: 185px;">
+                    <div class="text-info text-center mt-3 panel-body">
+                        <h4>{{ text_tax }}</h4>
+                    </div>
+                    <div class="text-info text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ tax }}</h1>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if complete_order_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid#f3a638; border-radius: 15px; height: 185px;">
+                    <div class="text-warning text-center mt-3 panel-body">
+                        <h4>{{ text_complete_order }}</h4>
+                    </div>
+                    <div class="text-warning text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_complete_order }}</h1>
+                        <a href="{{ href_complete }}"> <h5 class="text-warning">{{ text_view}}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if pending_order_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid #4cb657; border-radius: 15px; height: 185px;">
+                    <div class="text-success text-center mt-3 panel-body">
+                        <h4>{{ text_pending_order }}</h4>
+                    </div>
+                    <div class="text-success text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_panding_order }}</h1>
+                        <a href="{{ href_panding }}"> <h5 class="text-success">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if canceled_order_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid #e3503e; border-radius: 15px; height: 185px;">
+                    <div class="text-danger text-center mt-3 panel-body">
+                        <h4>{{ text_canceled_order }}</h4>
+                    </div>
+                    <div class="text-danger text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_canceled_order }}</h1>
+                        <a href="{{ href_canceled }}"> <h5 class="text-danger">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if refunded_order_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid #31708f; border-radius: 15px; height: 185px;">
+                    <div class="text-info text-center mt-3 panel-body">
+                        <h4>{{ text_refunded_order }}</h4>
+                    </div>
+                    <div class="text-info text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_refunded_order }}</h1>
+                        <a href="{{ href_refunded }}"> <h5 class="text-info">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-tital">{{ text_product_report }}</h2>
+            </div>
+        </div>
+        <div class="row w-100 container-fluid">
+            {% if product_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid#f3a638; border-radius: 15px; height: 185px;">
+                    <div class="text-warning text-center mt-3 panel-body">
+                        <h4>{{ text_total_product }}</h4>
+                    </div>
+                    <div class="text-warning text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_product }}</h1>
+                        <a href="{{ href_product }}"> <h5 class="text-warning">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if outofstock_product_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid #4cb657; border-radius: 15px; height: 185px;">
+                    <div class="text-success text-center mt-3 panel-body">
+                        <h4>{{ text_total_outOfStock_product }}</h4>
+                    </div>
+                    <div class="text-success text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_OutOfStock_product }}</h1>
+                        <a href="{{ href_outofstock_product }}"> <h5 class="text-success">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if lowestselling_product_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3"
+                    style="border: 1px solid #e3503e; border-radius: 15px; height: 185px;">
+                    <div class="text-danger text-center mt-3 panel-body">
+                        <h4>{{ text_lowest_selling_product }}</h4>
+                    </div>
+                    <div class="text-danger text-center mt-2 panel-body">
+                        <h2><b>{{ total_LowestSelling_product }}</b></h2>
+                        <a href="{{ href_lowestselling_product }}"> <h5 class="text-danger">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if highestselling_product_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3"
+                    style="border: 1px solid #31708f; border-radius: 15px; height: 185px;">
+                    <div class="text-info text-center mt-3 panel-body">
+                        <h4>{{ text_highest_selling_product }}</h4>
+                    </div>
+                    <div class="text-info text-center mt-2 panel-body">
+                        <h2><b>{{ total_HighestSelling_product }}</b></h2>
+                        <a href="{{ href_highestselling_product }}"> <h5 class="text-info">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if topview_product_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3"
+                    style="border: 1px solid#f3a638; border-radius: 15px; height: 185px;">
+                    <div class="text-warning text-center mt-3 panel-body">
+                        <h4>{{ text_TopView_product }}</h4>
+                    </div>
+                    <div class="text-warning text-center mt-2 panel-body">
+                        <h2><b>{{ total_TopView_product }}</b></h2>
+                        <a href="{{ href_topView_product }}"> <h5 class="text-warning">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if lowestview_product_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3"
+                    style="border: 1px solid #4cb657; border-radius: 15px; height: 185px;">
+                    <div class="text-success text-center mt-3 panel-body">
+                        <h4>{{ text_LowestView_product }}</h4>
+                    </div>
+                    <div class="text-success text-center mt-2 panel-body">
+                        <h2><b>{{ total_LowestView_product }}</b></h2>
+                        <a href="{{ href_lowestview_product }}"> <h5 class="text-success">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-tital">{{ text_category_report }}</h2>
+            </div>
+        </div>
+        <div class="row w-100 container-fluid">
+            {% if customers_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid#f3a638; border-radius: 15px; height: 185px;">
+                    <div class="text-warning text-center mt-3 panel-body">
+                        <h4>{{ text_total_customer }}</h4>
+                    </div>
+                    <div class="text-warning text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_customer }}</h1>
+                        <a href="{{ href_customer }}"> <h5 class="text-warning">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if category_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid #4cb657; border-radius: 15px; height: 185px;">
+                    <div class="text-success text-center mt-3 panel-body">
+                        <h4>{{ text_total_category }}</h4>
+                    </div>
+                    <div class="text-success text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_category }}</h1>
+                        <a href="{{ href_category }}"> <h5 class="text-success">{{ text_view }}</h5> </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if enable_category_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid #e3503e; border-radius: 15px; height: 185px;">
+                    <div class="text-danger text-center mt-3 panel-body">
+                        <h4>{{ text_total_enable_category }}</h4>
+                    </div>
+                    <div class="text-danger text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_enable_category }}</h1>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if disable_category_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid #31708f; border-radius: 15px; height: 185px;">
+                    <div class="text-info text-center mt-3 panel-body">
+                        <h4>{{ text_total_disable_category }}</h4>
+                    </div>
+                    <div class="text-info text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_disable_category }}</h1>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if nanufacturer_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3" style="border: 1px solid#f3a638; border-radius: 15px; height: 185px;">
+                    <div class="text-warning text-center mt-3 panel-body">
+                        <h4>{{ text_total_manufacturer }}</h4>
+                    </div>
+                    <div class="text-warning text-center mt-2 panel-body">
+                        <h1 style="font-size:40px">{{ total_manufacturer }}</h1>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if topbrand_status == 'on'%}
+            <div class="col-md-3">
+                <div class="panel panel-default mx-sm-1 p-3"
+                    style="border: 1px solid #4cb657; border-radius: 15px; height: 185px;">
+                    <div class="text-success text-center mt-3 panel-body">
+                        <h4>{{ text_top_brand }}</h4>
+                    </div>
+                    <div class="text-success text-center mt-2 panel-body">
+                        <h2><b>{{ top_brand }}</b></h2>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript"><!--
+    $('#day').on('click', function() {
+        
+        var url = '';
+    
+      var day_start = $('input[name=\'day_start\']').val();
+    
+        if (day_start) {
+            url += '&day_start=' + (day_start);
+        }
+      
+      var day_end = $('input[name=\'day_end\']').val();
+    
+        if (day_end) {
+            url += '&day_end=' + (day_end);
+        }
+    
+          location = 'index.php?route=extension/module/reports/info&user_token={{ user_token }}' + url;
+    });
+    //--></script>
+
+<script type="text/javascript"><!--
+    $('#month').on('click', function() {
+        var url = '';
+    
+      var month_start = $('input[name=\'month_start\']').val();
+    
+        if (month_start) {
+            url += '&month_start=' + encodeURIComponent(month_start);
+        }
+      
+      var month_end = $('input[name=\'month_end\']').val();
+    
+        if (month_end) {
+            url += '&month_end=' + encodeURIComponent(month_end);
+        }
+    
+          location = 'index.php?route=extension/module/reports/info&user_token={{ user_token }}' + url;
+    });
+    //--></script>
+
+<script type="text/javascript"><!--
+    $('#year').on('click', function() {
+        var url = '';
+    
+      var year_start = $('input[name=\'year_start\']').val();
+    
+        if (year_start) {
+            url += '&year_start=' + encodeURIComponent(year_start);
+        }
+      
+      var year_end = $('input[name=\'year_end\']').val();
+    
+        if (year_end) {
+            url += '&year_end=' + encodeURIComponent(year_end);
+        }
+    
+          location = 'index.php?route=extension/module/reports/info&user_token={{ user_token }}' + url;
+    });
+    //--></script>
+      <script type="text/javascript"><!--
+        $('.datetime').datetimepicker({
+            language: '{{ datepicker }}',
+            pickDate: true
+        });
+    //--></script> 
+    <script type="text/javascript"><!--
+        $('#button-custom').on('click', function() {
+            var url = '';
+        
+          var custom_date_start = $('input[name=\'start\']').val();
+        
+            if (custom_date_start) {
+                url += '&custom_date_start=' + encodeURIComponent(custom_date_start);
+            }
+          
+          var custom_date_end = $('input[name=\'end\']').val();
+        
+            if (custom_date_end) {
+                url += '&custom_date_end=' + encodeURIComponent(custom_date_end);
+            }
+          
+              location = 'index.php?route=extension/module/reports/info&user_token={{ user_token }}' + url;
+        });
+        //--></script>
+{{ footer }}

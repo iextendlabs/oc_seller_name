@@ -1,0 +1,215 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">{% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="row">
+      <div class="col-sm-9">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_list }}</h3>
+          </div>
+          <div class="panel-body">
+            <form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form-product">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-center">{{ column_image }}</td>
+                      <td class="text-left">{{ column_name }}</td>
+                      <td class="text-right">{{ column_price }}</td>
+                      <td class="text-right">{% if column_orders %} {{ column_orders }} {% elseif column_viewed %} {{ column_viewed }} {% endif %}</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  
+                  {% if products %}
+                  {% for product in products %}
+                  <tr>
+                    <td class="text-center">{% if product.image %} <img src="{{ product.image }}" alt="{{ product.name }}" class="img-thumbnail" /> {% else %} <span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span> {% endif %}</td>
+                    <td class="text-left">{{ product.name }}</td>
+                    <td class="text-right">{% if product.special %} <span style="text-decoration: line-through;">{{ product.price }}</span><br/>
+                      <div class="text-danger">{{ product.special }}</div>
+                      {% else %}
+                      {{ product.price }}
+                      {% endif %}</td>
+                    <td class="text-right">{% if product.orders <= 0 %} <span class="label label-warning">{{ product.orders }}</span> {% elseif product.orders <= 5 %} <span class="label label-danger">{{ product.orders }}</span> {% else %} <span class="label label-success">{{ product.orders }}</span> {% endif %} {% if product.viewed <= 0 %} <span class="label label-warning">{{ product.viewed }}</span> {% elseif product.viewed <= 5 %} <span class="label label-danger">{{ product.viewed }}</span> {% else %} <span class="label label-success">{{ product.viewed }}</span> {% endif %} </td>
+                    
+                  </tr>
+                  {% endfor %}
+                  {% else %}
+                  <tr>
+                    <td class="text-center" colspan="8">{{ text_no_results }}</td>
+                  </tr>
+                  {% endif %}
+                    </tbody>
+                  
+                </table>
+              </div>
+            </form>
+            <div class="row">
+              <div class="col-sm-6 text-left">{{ pagination }}</div>
+              <div class="col-sm-6 text-right">{{ results }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title" style="color:DodgerBlue;"> <i class="fa fa-filter"></i>{{ text_filtur }}</h3>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label for="input-category" class="control-label"> Category </label>
+                <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_category }}" id="input-category" class="form-control"/> <input type="hidden" name="category_id" value="{{ category_id }}"/>
+                <label class="control-label" for="input-limit"> Show </label>
+                <input type="text" name="limit" value="{{ limit }}" placeholder="Enter limit of product to show"  id="input-limit" class="form-control" />
+              </div>
+              <div class="form-group text-right">
+                <button type="button" id="button-filter" class="btn btn-default"><i class="fa fa-filter"></i> {{ button_filter }} </button>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% if function == 'topViewProduct' %}
+<script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+	var url = '';
+
+  var limit = $('input[name=\'limit\']').val();
+  
+  if (limit) {
+    url += '&limit=' + encodeURIComponent(limit);
+  }
+  
+  var category_id = $('input[name=\'category_id\']').val();
+  
+  if (category_id) {
+    url += '&category_id=' + encodeURIComponent(category_id);
+  }
+
+  location = 'index.php?route=extension/module/reports/topViewProduct&user_token={{ user_token }}' + url;
+  
+  });
+  //--></script>
+  {% endif %}
+
+  {% if function == 'lowestViewProduct' %}
+<script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+	var url = '';
+
+  var limit = $('input[name=\'limit\']').val();
+  
+  if (limit) {
+    url += '&limit=' + encodeURIComponent(limit);
+  }
+  
+  var category_id = $('input[name=\'category_id\']').val();
+  
+  if (category_id) {
+    url += '&category_id=' + encodeURIComponent(category_id);
+  }
+
+  location = 'index.php?route=extension/module/reports/lowestViewProduct&user_token={{ user_token }}' + url;
+  
+  });
+  //--></script>
+  {% endif %}
+
+  {% if function == 'highestSellingProduct' %}
+<script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+	var url = '';
+
+  var limit = $('input[name=\'limit\']').val();
+  
+  if (limit) {
+    url += '&limit=' + encodeURIComponent(limit);
+  }
+  
+ var category_id = $('input[name=\'category_id\']').val();
+  
+  if (category_id) {
+    url += '&category_id=' + encodeURIComponent(category_id);
+  }
+
+  location = 'index.php?route=extension/module/reports/highestSellingProduct&user_token={{ user_token }}' + url;
+  
+  });
+  //--></script>
+  {% endif %}
+
+  {% if function == 'lowestSellingProduct' %}
+<script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+	var url = '';
+
+  var limit = $('input[name=\'limit\']').val();
+  
+  if (limit) {
+    url += '&limit=' + encodeURIComponent(limit);
+  }
+  
+  var category_id = $('input[name=\'category_id\']').val();
+  
+  if (category_id) {
+    url += '&category_id=' + encodeURIComponent(category_id);
+  }
+
+  location = 'index.php?route=extension/module/reports/lowestSellingProduct&user_token={{ user_token }}' + url;
+  
+  });
+  //--></script>
+  {% endif %}
+
+    // Category
+  <script type="text/javascript"><!--
+  $('input[name=\'name\']').autocomplete({
+	  'source': function(request, response) {
+		  $.ajax({
+			  url: 'index.php?route=extension/module/reports/autocomplete&user_token={{ user_token }}&filter_category=' + encodeURIComponent(request),
+			  dataType: 'json',
+			  success: function(json) {
+				  json.unshift({
+					  category_id: 0,
+					  name: '{{ text_none }}'
+				  });
+
+				  response($.map(json, function(item) {
+					  return {
+						  label: item['name'],
+						  value: item['category_id']
+					  }
+				  }));
+			  }
+		  });
+	  },
+	  'select': function(item) {
+		  $('input[name=\'name\']').val(item['label']);
+		  $('input[name=\'category_id\']').val(item['value']);
+	  }
+  });
+  //--></script>
+{{ footer }} 
